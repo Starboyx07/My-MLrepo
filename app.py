@@ -38,6 +38,9 @@ plt.title("COVID-19 Data for India")
 plt.show()
 
 import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVR
 
 # Generate random historical data
 np.random.seed(42)
@@ -49,15 +52,14 @@ df_historical["day"] = range(1, 31)
 
 print(df_historical.head())
 
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-
+# Prepare data
 X = df_historical[["day"]]
 y = df_historical["cases"]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-model = LinearRegression()
+# Use Support Vector Regression (SVR) model
+model = SVR(kernel='rbf', C=100, gamma=0.1, epsilon=0.1)
 model.fit(X_train, y_train)
 
 # Predict next day's cases
